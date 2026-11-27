@@ -29,6 +29,13 @@ claude plugin install agent-baby-names@dblock
 copilot plugin install agent-baby-names@dblock
 ```
 
+Each plugin installs from its latest GitHub release, or from its default branch until it has one. To pick up a new release, refresh the marketplace and update the plugin, or turn on auto-update for the `dblock` marketplace:
+
+```sh
+claude plugin marketplace update dblock && claude plugin update agent-baby-names@dblock
+copilot plugin marketplace update dblock && copilot plugin update agent-baby-names@dblock
+```
+
 ## Plugins
 
 | Plugin                                                         | Description                                                                                                     |

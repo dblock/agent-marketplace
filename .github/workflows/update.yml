@@ -1,0 +1,50 @@
+name: Update Plugins
+
+on:
+  schedule:
+    - cron: "23 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  update:
+    name: Pin Plugins to Latest Releases
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      MARKETPLACE: .claude-plugin/marketplace.json
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v7.0.1
+      - name: Pin Plugins
+        id: pin
+        run: |
+          summary=$(scripts/update-plugins.sh "$MARKETPLACE")
+          if [[ -z $summary ]]; then
+            echo "Every plugin is pinned to its latest release."
+          elif [[ $(wc -l <<<"$summary") -eq 1 ]]; then
+            echo "title=${summary%.}" >>"$GITHUB_OUTPUT"
+          else
+            echo "title=Pin plugins to their latest releases" >>"$GITHUB_OUTPUT"
+          fi
+          printf '%s\n' "$summary" >"$RUNNER_TEMP/summary"
+      - name: Install Claude Code
+        if: steps.pin.outputs.title
+        run: npm install --global @anthropic-ai/claude-code
+      - name: Validate Marketplace
+        if: steps.pin.outputs.title
+        run: npm run validate
+      - name: Commit and Push
+        if: steps.pin.outputs.title
+        env:
+          TITLE: ${{ steps.pin.outputs.title }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          { echo "$TITLE"; echo; cat "$RUNNER_TEMP/summary"; } | git commit -q -F - -- "$MARKETPLACE"
+          git push origin "HEAD:$GITHUB_REF"
