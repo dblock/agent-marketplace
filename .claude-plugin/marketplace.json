@@ -1,0 +1,22 @@
+{
+  "name": "dblock",
+  "owner": {
+    "name": "Daniel (dB.) Doubrovkine",
+    "url": "https://github.com/dblock"
+  },
+  "metadata": {
+    "description": "Plugins for Claude Code and GitHub Copilot CLI by dblock."
+  },
+  "plugins": [
+    {
+      "name": "agent-baby-names",
+      "description": "Names each new session after the project it works on, using a naming strategy you can choose or write yourself.",
+      "source": {
+        "source": "github",
+        "repo": "dblock/agent-baby-names"
+      },
+      "homepage": "https://github.com/dblock/agent-baby-names",
+      "license": "MIT"
+    }
+  ]
+}
