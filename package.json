@@ -8,7 +8,8 @@
     "node": "^22.13.0 || >=24.0.0"
   },
   "scripts": {
-    "lint": "eslint . && shellcheck scripts/*.sh test/bin/gh && node scripts/logo.js --check",
+    "check-install": "scripts/check-install.sh",
+    "lint": "eslint . && shellcheck scripts/*.sh test/bin/gh test/bin/agent && node scripts/logo.js --check",
     "logo": "node scripts/logo.js",
     "test": "node --test",
     "validate": "claude plugin validate .claude-plugin/marketplace.json"

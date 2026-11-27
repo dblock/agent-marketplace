@@ -33,12 +33,15 @@ jobs:
             echo "title=Pin plugins to their latest releases" >>"$GITHUB_OUTPUT"
           fi
           printf '%s\n' "$summary" >"$RUNNER_TEMP/summary"
-      - name: Install Claude Code
+      - name: Install Claude Code and Copilot CLI
         if: steps.pin.outputs.title
-        run: npm install --global @anthropic-ai/claude-code
+        run: npm install --global @anthropic-ai/claude-code @github/copilot
       - name: Validate Marketplace
         if: steps.pin.outputs.title
         run: npm run validate
+      - name: Install Plugins
+        if: steps.pin.outputs.title
+        run: npm run check-install
       - name: Commit and Push
         if: steps.pin.outputs.title
         env:

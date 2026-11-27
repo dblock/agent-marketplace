@@ -7,7 +7,7 @@ This repository is the `dblock` plugin marketplace for Claude Code and GitHub Co
 - Add an entry to `plugins` in `.claude-plugin/marketplace.json` with the plugin's `name`, a one-sentence `description`, and a `github` source pointing at its repository, and add a matching row to the Plugins table in the README.
 - Leave out `ref`: the Update Plugins workflow pins it to the plugin's latest release, and leaves it out while the plugin has none. See [DESIGN](DESIGN.md#plugin-updates).
 - A plugin's own repository must not declare a marketplace named `dblock`, which would collide with this one.
-- Before opening a PR, install the plugin from a local copy of this marketplace in Claude Code and Copilot CLI with isolated configuration folders (`CLAUDE_CONFIG_DIR` and `COPILOT_HOME`), so your own configuration is untouched.
+- Before opening a PR, run `npm run check-install` to install every plugin from this checkout in Claude Code and Copilot CLI.
 
 ## Validation
 
@@ -18,10 +18,11 @@ npm install
 npm run lint
 npm test
 npm run validate
+npm run check-install
 npm run logo    # after changing scripts/logo.js
 ```
 
-`npm run lint` needs [ShellCheck](https://www.shellcheck.net) installed, and `npm run validate` needs Claude Code. The tests run `scripts/update-plugins.sh` against a stand-in `gh` (`test/bin/gh`), without the network.
+`npm run lint` needs [ShellCheck](https://www.shellcheck.net) installed, `npm run validate` needs Claude Code, and `npm run check-install` needs Claude Code, Copilot CLI and the network. It installs each plugin with each CLI in an empty, temporary configuration folder (`CLAUDE_CONFIG_DIR` and `COPILOT_HOME`), so your own configuration is untouched. The tests run the scripts without the network, against stand-ins in `test/bin`: `gh`, and `agent`, which `claude` and `copilot` link to so Claude Code and Copilot CLI get the same stand-in.
 
 ## Invariants
 
