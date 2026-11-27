@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# A stand-in for gh in tests, answering from files in $GH_STUB and logging each call to $GH_STUB/calls.
+# releases.json maps "owner/repo" to a tag, to null for no release, or to "error" for a server error; missing repositories are not found.
+set -euo pipefail
+printf '%s\n' "$*" >>"$GH_STUB/calls"
+releases=$GH_STUB/releases.json
+case "$1 ${2-}" in
+  "api repos/"*)
+    path=${2#repos/}
+    if [[ $path == */releases/latest ]]; then
+      tag=$(jq -r --arg r "${path%/releases/latest}" '.[$r] // empty' "$releases")
+      case $tag in
+        "")
+          echo '{"message":"Not Found","status":"404"}'
+          echo "gh: Not Found (HTTP 404)" >&2
+          exit 1
+          ;;
+        error)
+          echo "gh: Server Error (HTTP 500)" >&2
+          exit 1
+          ;;
+        *) echo "$tag" ;;
+      esac
+    elif jq -e --arg r "$path" 'has($r)' "$releases" >/dev/null; then
+      echo "$path"
+    else
+      echo "gh: Not Found (HTTP 404)" >&2
+      exit 1
+    fi
+    ;;
+  *)
+    echo "Unexpected gh call: $*." >&2
+    exit 1
+    ;;
+esac

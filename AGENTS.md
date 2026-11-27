@@ -5,6 +5,7 @@ This repository is the `dblock` plugin marketplace for Claude Code and GitHub Co
 ## Adding a Plugin
 
 - Add an entry to `plugins` in `.claude-plugin/marketplace.json` with the plugin's `name`, a one-sentence `description`, and a `github` source pointing at its repository, and add a matching row to the Plugins table in the README.
+- Leave out `ref`: the Update Plugins workflow pins it to the plugin's latest release, and leaves it out while the plugin has none. See [DESIGN](DESIGN.md#plugin-updates).
 - A plugin's own repository must not declare a marketplace named `dblock`, which would collide with this one.
 - Before opening a PR, install the plugin from a local copy of this marketplace in Claude Code and Copilot CLI with isolated configuration folders (`CLAUDE_CONFIG_DIR` and `COPILOT_HOME`), so your own configuration is untouched.
 
@@ -15,11 +16,17 @@ Run these and fix what they report before every commit and push:
 ```sh
 npm install
 npm run lint
+npm test
 npm run validate
 npm run logo    # after changing scripts/logo.js
 ```
 
-`npm run validate` needs Claude Code installed.
+`npm run lint` needs [ShellCheck](https://www.shellcheck.net) installed, and `npm run validate` needs Claude Code. The tests run `scripts/update-plugins.sh` against a stand-in `gh` (`test/bin/gh`), without the network.
+
+## Invariants
+
+- Each `github` entry's `source.ref` is the tag of its repository's latest release, or absent while it has none. The Update Plugins workflow commits pin changes directly to `master`; change a pin by hand only through a pull request, for example to hold a plugin back by pinning `sha`.
+- Scripts use only Bash, jq, Git and `gh`, and print messages that end with a period.
 
 ## Conventions
 

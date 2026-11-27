@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   lint:
-    name: Lint Documentation
+    name: Lint Scripts and Documentation
     runs-on: ubuntu-24.04
     steps:
       - name: Check Out
