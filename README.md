@@ -1,3 +1,5 @@
+<img src="assets/logo.svg" alt="Agent Marketplace logo, a coral shopping bag carrying a cream puzzle piece" width="160">
+
 # Agent Marketplace
 
 [![Lint](https://github.com/dblock/agent-marketplace/actions/workflows/lint.yml/badge.svg)](https://github.com/dblock/agent-marketplace/actions/workflows/lint.yml) [![Validate](https://github.com/dblock/agent-marketplace/actions/workflows/validate.yml/badge.svg)](https://github.com/dblock/agent-marketplace/actions/workflows/validate.yml)
@@ -35,7 +37,7 @@ copilot plugin install agent-baby-names@dblock
 
 ## Contributing
 
-See [AGENTS](AGENTS.md).
+See [AGENTS](AGENTS.md) and [DESIGN](DESIGN.md).
 
 ## License
 

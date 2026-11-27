@@ -8,7 +8,8 @@
     "node": "^22.13.0 || >=24.0.0"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && node scripts/logo.js --check",
+    "logo": "node scripts/logo.js",
     "validate": "claude plugin validate .claude-plugin/marketplace.json"
   },
   "devDependencies": {
