@@ -1,0 +1,25 @@
+{
+  "name": "agent-marketplace",
+  "description": "A plugin marketplace for Claude Code and GitHub Copilot CLI.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": "^22.13.0 || >=24.0.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "validate": "claude plugin validate .claude-plugin/marketplace.json"
+  },
+  "devDependencies": {
+    "@cspell/dict-en_us": "^4.4.43",
+    "@cspell/dict-software-terms": "^5.4.11",
+    "@eslint/markdown": "^8.0.3",
+    "eslint": "^10.16.0",
+    "eslint-plugin-markdown-links": "^0.9.1",
+    "eslint-plugin-markdown-links-unlinked": "^0.1.0",
+    "eslint-plugin-markdown-preferences": "^0.43.0",
+    "eslint-plugin-markdown-preferences-paragraph": "^0.3.0",
+    "eslint-plugin-prose-spellcheck": "^0.2.0"
+  }
+}

@@ -1,0 +1,27 @@
+# Working on Agent Marketplace
+
+This repository is the `dblock` plugin marketplace for Claude Code and GitHub Copilot CLI. It holds no plugin code: `.claude-plugin/marketplace.json` lists plugins that live in their own repositories, and both Claude Code and Copilot CLI read it.
+
+## Adding a Plugin
+
+- Add an entry to `plugins` in `.claude-plugin/marketplace.json` with the plugin's `name`, a one-sentence `description`, and a `github` source pointing at its repository, and add a matching row to the Plugins table in the README.
+- A plugin's own repository must not declare a marketplace named `dblock`, which would collide with this one.
+- Before opening a PR, install the plugin from a local copy of this marketplace in Claude Code and Copilot CLI with isolated configuration folders (`CLAUDE_CONFIG_DIR` and `COPILOT_HOME`), so your own configuration is untouched.
+
+## Validation
+
+Run these and fix what they report before every commit and push:
+
+```sh
+npm install
+npm run lint
+npm run validate
+```
+
+`npm run validate` needs Claude Code installed.
+
+## Conventions
+
+- Branch as `dblock/<topic>`, keep one commit per PR, and use rebase merges only. Never push to `master` directly.
+- Use Title Case for Markdown headings and workflow, job, and step names; keep Markdown paragraphs on one line.
+- Include an AI co-author trailer in AI-assisted commits, and disclose AI authorship in PR descriptions and comments.
