@@ -14,7 +14,7 @@
       "source": {
         "source": "github",
         "repo": "dblock/agent-baby-names",
-        "ref": "v0.1.0"
+        "ref": "v0.2.0"
       },
       "homepage": "https://github.com/dblock/agent-baby-names",
       "license": "MIT"
