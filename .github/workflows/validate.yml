@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: Check Out
         uses: actions/checkout@v7.0.1
-      - name: Install Claude Code
-        run: npm install --global @anthropic-ai/claude-code
+      - name: Install Claude Code and Copilot CLI
+        run: npm install --global @anthropic-ai/claude-code @github/copilot
       - name: Validate Marketplace
         run: npm run validate
+      - name: Install Plugins
+        run: npm run check-install

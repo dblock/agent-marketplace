@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# A stand-in for the claude and copilot CLIs in tests, linked as test/bin/claude and test/bin/copilot, logging each call with its configuration folder to $CLI_STUB/calls.
+# Installing a plugin listed in $CLI_STUB/fail fails, as does any command when $CLI_STUB/fail-<cli> exists.
+set -euo pipefail
+cli=$(basename "$0")
+case $cli in
+  claude) config=${CLAUDE_CONFIG_DIR-} ;;
+  copilot) config=${COPILOT_HOME-} ;;
+  *) echo "Unexpected stand-in name $cli." >&2; exit 2 ;;
+esac
+[[ -d $config ]] || { echo "Configuration folder $config not found." >&2; exit 2; }
+printf '%s\t%s\t%s\n' "$cli" "$config" "$*" >>"$CLI_STUB/calls"
+if [[ -e $CLI_STUB/fail-$cli ]]; then echo "$cli failed." >&2; exit 1; fi
+if [[ "$1 $2" == "plugin install" ]] && grep -qxF "$3" "$CLI_STUB/fail" 2>/dev/null; then echo "Plugin $3 not found." >&2; exit 1; fi
